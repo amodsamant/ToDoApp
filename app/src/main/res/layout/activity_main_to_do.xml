@@ -32,11 +32,12 @@
         android:hint="Add Item"/>
 
     <Button
-        android:text="Button"
+        android:text="Add Item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnAddItem"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="onAddItem"/>
 
 </RelativeLayout>
