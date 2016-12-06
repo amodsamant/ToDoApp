@@ -1,5 +1,6 @@
 package com.todoapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -20,6 +21,7 @@ public class MainToDoActivity extends AppCompatActivity {
     ArrayAdapter<String> itemsAdapter;
     ListView lvItems;
 
+    private final int REQUEST_CODE = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,21 @@ public class MainToDoActivity extends AppCompatActivity {
 
     private void setupListViewListener() {
 
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View item, int pos, long id) {
+
+                Intent intent = new Intent(MainToDoActivity.this, EditTodoActivity.class);
+                intent.putExtra("todoText", itemsAdapter.getItem(pos));
+                intent.putExtra("position", pos);
+
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+        });
+
+
+
+
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View item, int pos, long id) {
@@ -57,8 +74,26 @@ public class MainToDoActivity extends AppCompatActivity {
                 return true;
             }
         });
+
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+
+            String todoText = data.getExtras().getString("todoText");
+            int position = data.getExtras().getInt("position", 0);
+
+            if(todoText.equals("")) {
+                items.remove(position);
+            } else {
+                items.set(position, todoText);
+            }
+            itemsAdapter.notifyDataSetChanged();
+            writeItems();
+        }
+    }
 
     private void readItems() {
 
