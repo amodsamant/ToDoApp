@@ -28,12 +28,47 @@
         android:id="@+id/etTodo"
         />
 
+    <TextView
+        android:text="Priority"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/priorityTextView"
+        android:layout_below="@+id/etTodo"
+        android:layout_alignParentStart="true" />
+
     <Button
         android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etTodo"
-        android:layout_alignParentStart="true"
         android:id="@+id/saveEdit"
-        android:onClick="saveTodo"/>
+        android:onClick="saveTodo"
+        android:layout_centerVertical="true"/>
+
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/priorityTextView"
+        android:layout_alignParentStart="true">
+    <RadioButton
+        android:text="Low"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lowPriority"/>
+
+    <RadioButton
+        android:text="Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mediumPriority" />
+
+    <RadioButton
+        android:text="High"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/highPriority" />
+
+    </RadioGroup>
+
+
 </RelativeLayout>

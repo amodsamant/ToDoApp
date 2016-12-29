@@ -5,11 +5,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 public class EditTodoActivity extends AppCompatActivity {
 
     EditText todoEditText;
     int position;
+
+    RadioButton lowPriorityButton;
+    RadioButton mediumPriorityButton;
+    RadioButton highPriorityButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
