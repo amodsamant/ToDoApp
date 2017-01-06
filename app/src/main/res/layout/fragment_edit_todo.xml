@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_edit_todo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.todoapp.EditTodoActivity">
+    android:orientation="vertical">
 
     <TextView
         android:text="Edit the todo:"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/tvTodo" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
@@ -30,31 +25,24 @@
 
     <TextView
         android:text="Priority"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/priorityTextView"
         android:layout_below="@+id/etTodo"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:text="Save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/saveEdit"
-        android:onClick="saveTodo"
-        android:layout_centerVertical="true"/>
 
     <RadioGroup
-        android:layout_width="fill_parent"
+        android:id="@+id/priorityGroup"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/priorityTextView"
-        android:layout_alignParentStart="true">
+        android:orientation="horizontal">
     <RadioButton
         android:text="Low"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lowPriority"/>
+        android:id="@+id/lowPriority"
+        android:checked="true"/>
 
     <RadioButton
         android:text="Medium"
@@ -70,5 +58,32 @@
 
     </RadioGroup>
 
+    <!--<Space-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="10dp"-->
+        <!--android:layout_weight="1" />-->
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+        <Button
+        android:text="Save"
+        android:id="@+id/saveEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="saveTodo"
+        android:layout_centerVertical="true"/>
+
+    <Button
+        android:text="Cancel"
+        android:id="@+id/cancelEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="cancelEdit"
+        android:layout_centerVertical="true"/>
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,24 +1,25 @@
 package com.todoapp;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import org.apache.commons.io.FileUtils;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.todoapp.com.todoapp.datastore.PriorityEnum;
+import com.todoapp.com.todoapp.datastore.StatusEnum;
+import com.todoapp.com.todoapp.datastore.ToDo;
+import com.todoapp.com.todoapp.datastore.ToDo_Table;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
-public class MainToDoActivity extends AppCompatActivity {
+public class MainToDoActivity extends AppCompatActivity implements EditTodoDialogFragment.EditToDoDialogListener {
 
-    ArrayList<String> items;
-    ArrayAdapter<String> itemsAdapter;
+    List<ToDo> toDoList;
+    ToDoAdapter adapter;
     ListView lvItems;
 
     private final int REQUEST_CODE = 20;
@@ -28,13 +29,14 @@ public class MainToDoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_to_do);
 
-        readItems();
+        toDoList = readAllItems();
         lvItems = (ListView)findViewById(R.id.lvItems);
 
-        itemsAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, items);
+        // Create the adapter to convert the array to views
+        adapter = new ToDoAdapter(this, toDoList);
 
-        lvItems.setAdapter(itemsAdapter);
+        // Attach the adapter to a ListView
+        lvItems.setAdapter(adapter);
 
         setupListViewListener();
     }
@@ -43,9 +45,8 @@ public class MainToDoActivity extends AppCompatActivity {
 
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
-        itemsAdapter.add(itemText);
         etNewItem.setText("");
-        writeItems();
+        writeItem(itemText);
     }
 
     private void setupListViewListener() {
@@ -54,69 +55,68 @@ public class MainToDoActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View item, int pos, long id) {
 
-                Intent intent = new Intent(MainToDoActivity.this, EditTodoActivity.class);
-                intent.putExtra("todoText", itemsAdapter.getItem(pos));
-                intent.putExtra("position", pos);
+                FragmentManager fm = getSupportFragmentManager();
+                EditTodoDialogFragment editTodoDialogFragment
+                        = EditTodoDialogFragment.newInstance(adapter.getItem(pos).taskName,pos,
+                        adapter.getItem(pos).id,adapter.getItem(pos).priority);
+                editTodoDialogFragment.show(fm, "fragment_edit_todo");
 
-                startActivityForResult(intent, REQUEST_CODE);
             }
         });
-
-
 
 
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View item, int pos, long id) {
-                items.remove(pos);
-                itemsAdapter.notifyDataSetChanged();
-                writeItems();
+
+                deleteItem(adapter.getItem(pos).taskName, pos);
                 return true;
             }
         });
 
     }
 
+
+    private List<ToDo> readAllItems() {
+
+        return SQLite.select().
+                from(ToDo.class).queryList();
+
+    }
+
+    private void writeItem(String taskName) {
+
+        ToDo data = new ToDo(taskName, StatusEnum.NOT_STARTED, PriorityEnum.LOW);
+        data.save();
+
+        toDoList.add(data);
+        adapter.notifyDataSetChanged();
+
+    }
+
+    private void updateItem(String taskName, String id, PriorityEnum priority) {
+
+        SQLite.update(ToDo.class)
+                .set(ToDo_Table.TaskName.eq(taskName),ToDo_Table.Priority.eq(priority))
+                .where(ToDo_Table.Id.is(id)).execute();
+
+        toDoList.clear();
+        toDoList.addAll(readAllItems());
+        adapter.notifyDataSetChanged();
+
+    }
+
+    private void deleteItem(String taskName, int position) {
+
+        SQLite.delete(ToDo.class).where(ToDo_Table.TaskName.is(taskName)).execute();
+        toDoList.remove(position);
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-
-            String todoText = data.getExtras().getString("todoText");
-            int position = data.getExtras().getInt("position", 0);
-
-            if(todoText.equals("")) {
-                items.remove(position);
-            } else {
-                items.set(position, todoText);
-            }
-            itemsAdapter.notifyDataSetChanged();
-            writeItems();
-        }
+    public void onFinishEditDialog(String taskName, PriorityEnum priority, String id) {
+        updateItem(taskName, id, priority);
     }
 
-    private void readItems() {
-
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir,"todo.txt");
-        try {
-            items = new ArrayList<String>(FileUtils.readLines(todoFile));
-        } catch(IOException e) {
-            items = new ArrayList<String>();
-        }
-
-    }
-
-    private void writeItems() {
-
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir,"todo.txt");
-        try {
-            FileUtils.writeLines(todoFile,items);
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
 }
