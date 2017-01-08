@@ -3,14 +3,13 @@
     android:id="@+id/activity_edit_todo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/fab_margin">
 
     <TextView
-        android:text="Edit the todo:"
+        android:text="Task:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
         android:id="@+id/tvTodo" />
 
     <EditText
@@ -18,19 +17,17 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:layout_below="@+id/tvTodo"
-        android:layout_alignParentStart="true"
-        android:id="@+id/etTodo"
-        />
+        android:id="@+id/etTodo"/>
 
     <TextView
         android:text="Priority"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/priorityTextView"
-        android:layout_below="@+id/etTodo"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/priorityTextView"/>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="5dp" />
 
     <RadioGroup
         android:id="@+id/priorityGroup"
@@ -44,7 +41,7 @@
         android:id="@+id/lowPriority"
         android:checked="true"/>
 
-    <RadioButton
+        <RadioButton
         android:text="Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,32 +55,30 @@
 
     </RadioGroup>
 
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="10dp"-->
-        <!--android:layout_weight="1" />-->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
 
-    <LinearLayout
+   <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
+       <Button
+            android:text="Save"
+            android:id="@+id/saveEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="saveTodo"
+            android:layout_centerVertical="true"/>
 
         <Button
-        android:text="Save"
-        android:id="@+id/saveEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="saveTodo"
-        android:layout_centerVertical="true"/>
-
-    <Button
-        android:text="Cancel"
-        android:id="@+id/cancelEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="cancelEdit"
-        android:layout_centerVertical="true"/>
+            android:text="Cancel"
+            android:id="@+id/cancelEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="cancelEdit"
+            android:layout_centerVertical="true"/>
 
     </LinearLayout>
 </LinearLayout>

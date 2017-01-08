@@ -1,16 +1,16 @@
 package com.todoapp;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.todoapp.com.todoapp.datastore.PriorityEnum;
-import com.todoapp.com.todoapp.datastore.StatusEnum;
 import com.todoapp.com.todoapp.datastore.ToDo;
 import com.todoapp.com.todoapp.datastore.ToDo_Table;
 
@@ -18,16 +18,17 @@ import java.util.List;
 
 public class MainToDoActivity extends AppCompatActivity implements EditTodoDialogFragment.EditToDoDialogListener {
 
-    List<ToDo> toDoList;
-    ToDoAdapter adapter;
-    ListView lvItems;
-
-    private final int REQUEST_CODE = 20;
+    private List<ToDo> toDoList;
+    private ToDoAdapter adapter;
+    private ListView lvItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_to_do);
+        setContentView(R.layout.activity_to_do_list);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         toDoList = readAllItems();
         lvItems = (ListView)findViewById(R.id.lvItems);
@@ -39,14 +40,29 @@ public class MainToDoActivity extends AppCompatActivity implements EditTodoDialo
         lvItems.setAdapter(adapter);
 
         setupListViewListener();
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                onAddItem(view);
+            }
+        });
     }
 
     public void onAddItem(View v) {
 
-        EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
-        String itemText = etNewItem.getText().toString();
-        etNewItem.setText("");
-        writeItem(itemText);
+//        EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
+//        String itemText = etNewItem.getText().toString();
+//        etNewItem.setText("");
+//        writeItem(itemText);
+        EditTodoDialogFragment editTodoDialogFragment =
+                EditTodoDialogFragment.newInstance(-1);
+        editTodoDialogFragment.show(getSupportFragmentManager(), "fragment_edit_todo");
+
+
     }
 
     private void setupListViewListener() {
@@ -55,15 +71,14 @@ public class MainToDoActivity extends AppCompatActivity implements EditTodoDialo
             @Override
             public void onItemClick(AdapterView<?> adapterView, View item, int pos, long id) {
 
-                FragmentManager fm = getSupportFragmentManager();
-                EditTodoDialogFragment editTodoDialogFragment
-                        = EditTodoDialogFragment.newInstance(adapter.getItem(pos).taskName,pos,
+                EditTodoDialogFragment editTodoDialogFragment =
+                        EditTodoDialogFragment.newInstance(adapter.getItem(pos).taskName,pos,
                         adapter.getItem(pos).id,adapter.getItem(pos).priority);
-                editTodoDialogFragment.show(fm, "fragment_edit_todo");
+//              editTodoDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+                editTodoDialogFragment.show(getSupportFragmentManager(), "fragment_edit_todo");
 
             }
         });
-
 
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
             @Override
@@ -73,9 +88,7 @@ public class MainToDoActivity extends AppCompatActivity implements EditTodoDialo
                 return true;
             }
         });
-
     }
-
 
     private List<ToDo> readAllItems() {
 
@@ -84,9 +97,8 @@ public class MainToDoActivity extends AppCompatActivity implements EditTodoDialo
 
     }
 
-    private void writeItem(String taskName) {
+    private void writeItem(ToDo data) {
 
-        ToDo data = new ToDo(taskName, StatusEnum.NOT_STARTED, PriorityEnum.LOW);
         data.save();
 
         toDoList.add(data);
@@ -118,5 +130,8 @@ public class MainToDoActivity extends AppCompatActivity implements EditTodoDialo
         updateItem(taskName, id, priority);
     }
 
-
+    @Override
+    public void onFinishEditDialog(ToDo data) {
+        writeItem(data);
+    }
 }
