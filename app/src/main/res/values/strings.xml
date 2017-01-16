@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">ToDoApp</string>
+    <string name="app_name">Dash It</string>
+    <string name="title_activity_to_do_list">ToDoListActivity</string>
+
+    <string name="due"><b><i>DUE: </i></b></string>
+    <string name="today"><i>TODAY</i></string>
+    <string name="change_due_date">Change Due Date</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="task">Task</string>
+    <string name="priority">Priority</string>
 </resources>

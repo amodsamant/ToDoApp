@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#009999</color>
+    <color name="colorPrimaryDark">#008080</color>
+    <color name="colorAccent">#008080</color>
+    <color name="floatingActionButton">#008080</color>
+    <color name="lowPriorityColor">#228B22</color>
+    <color name="mediumPriorityColor">#ffa700</color>
+    <color name="background">#f2f2f2</color>
+    <color name="white">#ffffff</color>
+    <color name="button">#008080</color>
+
 </resources>
