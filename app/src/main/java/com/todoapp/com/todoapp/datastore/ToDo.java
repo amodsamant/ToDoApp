@@ -5,7 +5,7 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Table(database = MyDatabase.class)
 public class ToDo extends BaseModel {
@@ -16,9 +16,6 @@ public class ToDo extends BaseModel {
 
   @Column(name = "TaskName")
   public String taskName;
-
-  @Column(name = "Status")
-  public StatusEnum status;
 
   @Column(name = "Priority")
   public PriorityEnum priority;
@@ -35,19 +32,17 @@ public class ToDo extends BaseModel {
   }
   
   // Be sure to call super() on additional constructors as well
-  public ToDo(String taskName, StatusEnum status, PriorityEnum priority){
+  public ToDo(String taskName, PriorityEnum priority){
     super();
     this.id = String.valueOf(++incrementalId);
     this.taskName = taskName;
-    this.status = status;
     this.priority = priority;
   }
 
-  public ToDo(String taskName, StatusEnum status, PriorityEnum priority, Date dueDate){
+  public ToDo(String taskName, PriorityEnum priority, Date dueDate){
     super();
     this.id = String.valueOf(++incrementalId);
     this.taskName = taskName;
-    this.status = status;
     this.priority = priority;
     this.dueDate = dueDate;
   }
