@@ -1,4 +1,4 @@
-package com.todoapp.com.todoapp.datastore;
+package com.todoapp.models;
 
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;

@@ -1,4 +1,4 @@
-package com.todoapp;
+package com.todoapp.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.todoapp.com.todoapp.datastore.PriorityEnum;
-import com.todoapp.com.todoapp.datastore.ToDo;
+import com.todoapp.R;
+import com.todoapp.utils.ToDoConstants;
+import com.todoapp.models.PriorityEnum;
+import com.todoapp.models.ToDo;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -49,7 +51,7 @@ public class ToDoAdapter extends ArrayAdapter<ToDo> {
             dueDate = todo.dueDate;
         }
 
-        String dueBy = ToDoConstants.df.format(dueDate);
+        String dueBy = ToDoConstants.DATE_FORMAT.format(dueDate);
 
         Calendar c1 = Calendar.getInstance();
         c1.add(Calendar.DAY_OF_YEAR, 1);

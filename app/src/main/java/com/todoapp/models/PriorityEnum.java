@@ -1,4 +1,4 @@
-package com.todoapp.com.todoapp.datastore;
+package com.todoapp.models;
 
 public enum PriorityEnum {
 

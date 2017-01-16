@@ -3,4 +3,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="padding_two">2dp</dimen>
+    <dimen name="top_padding">4dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="space">5dp</dimen>
+    <dimen name="zero">0dp</dimen>
 </resources>

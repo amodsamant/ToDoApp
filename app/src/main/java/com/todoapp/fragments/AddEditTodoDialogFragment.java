@@ -1,4 +1,4 @@
-package com.todoapp;
+package com.todoapp.fragments;
 
 import android.app.DatePickerDialog;
 import android.graphics.Point;
@@ -21,15 +21,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.StringUtils;
-import com.todoapp.com.todoapp.datastore.PriorityEnum;
-import com.todoapp.com.todoapp.datastore.ToDo;
+import com.todoapp.R;
+import com.todoapp.utils.ToDoConstants;
+import com.todoapp.models.PriorityEnum;
+import com.todoapp.models.ToDo;
 
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import static com.todoapp.ToDoConstants.df;
 
 public class AddEditTodoDialogFragment extends DialogFragment {
 
@@ -79,8 +80,7 @@ public class AddEditTodoDialogFragment extends DialogFragment {
 		args.putInt("position", pos);
 		args.putString("id",id);
         args.putString("priority",priority.name());
-
-        args.putString("dueDateString", ToDoConstants.df.format(dueDate));
+        args.putString("dueDateString", ToDoConstants.DATE_FORMAT.format(dueDate));
 
         frag.setArguments(args);
 		return frag;
@@ -126,7 +126,7 @@ public class AddEditTodoDialogFragment extends DialogFragment {
             dueDateString = getArguments().getString("dueDateString");
         } else {
             Date today = Calendar.getInstance().getTime();
-            dueDateString = df.format(today);
+            dueDateString = ToDoConstants.DATE_FORMAT.format(today);
         }
 
 		priorityGroup = (RadioGroup) view.findViewById(R.id.priorityGroup);
@@ -186,7 +186,7 @@ public class AddEditTodoDialogFragment extends DialogFragment {
 
                 Date dueDate = null;
                 try {
-                   dueDate = df.parse(dueDateString);
+                   dueDate = ToDoConstants.DATE_FORMAT.parse(dueDateString);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

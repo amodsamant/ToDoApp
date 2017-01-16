@@ -1,4 +1,4 @@
-package com.todoapp;
+package com.todoapp.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,9 +9,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.todoapp.com.todoapp.datastore.PriorityEnum;
-import com.todoapp.com.todoapp.datastore.ToDo;
-import com.todoapp.com.todoapp.datastore.ToDo_Table;
+import com.todoapp.R;
+import com.todoapp.adapters.ToDoAdapter;
+import com.todoapp.fragments.AddEditTodoDialogFragment;
+import com.todoapp.models.PriorityEnum;
+import com.todoapp.models.ToDo;
+import com.todoapp.models.ToDo_Table;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,8 +30,7 @@ public class MainToDoActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
